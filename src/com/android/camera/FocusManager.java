@@ -247,6 +247,7 @@ public class FocusManager {
         // Let users be able to cancel previous touch focus.
         if ((mFocusArea != null) && (mState == STATE_FOCUSING ||
                     mState == STATE_SUCCESS || mState == STATE_FAIL)) {
+            && needAutoFocusCall( )) {
             cancelAutoFocus();
         }
 
@@ -288,7 +289,7 @@ public class FocusManager {
 
         // Set the focus area and metering area.
         mListener.setFocusParameters();
-        if (mFocusAreaSupported && (e.getAction() == MotionEvent.ACTION_UP)) {
+        if (mFocusAreaSupported && (e.getAction() == MotionEvent.ACTION_UP) && needAutoFocusCall()) {
             autoFocus();
         } else {  // Just show the indicator in all other cases.
             updateFocusUI();
@@ -488,6 +489,7 @@ public class FocusManager {
         String focusMode = getFocusMode();
         return !(focusMode.equals(Parameters.FOCUS_MODE_INFINITY)
                 || focusMode.equals(Parameters.FOCUS_MODE_FIXED)
+                || focusMode.equals(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
                 || focusMode.equals(Parameters.FOCUS_MODE_EDOF));
     }
 }
